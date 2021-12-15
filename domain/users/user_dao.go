@@ -2,6 +2,7 @@ package users
 
 import (
 	"fmt"
+	"github.com/Valdera/bookstore_users-api/datasources/mysql/users_db"
 	"github.com/Valdera/bookstore_users-api/utils/date"
 	"github.com/Valdera/bookstore_users-api/utils/errors"
 )
@@ -11,6 +12,10 @@ var (
 )
 
 func (user *User) Get() *errors.RestErr {
+	if err := users_db.Client.Ping(); err != nil {
+		panic(err)
+	}
+
 	result := userDB[user.Id]
 
 	if result == nil {
